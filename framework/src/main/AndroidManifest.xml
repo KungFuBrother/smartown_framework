@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <application
-        android:name="com.smartown.SmartownApplication"
+        android:name="com.smartown.framework.SmartownApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,7 +24,7 @@
             android:value="TEST" />
 
         <activity
-            android:name="com.smartown.activity.EntranceActivity"
+            android:name="app.test.activity.EntranceActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -34,10 +34,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.smartown.activity.MainActivity"
+            android:name="app.test.activity.MainActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.smartown.base.FragmentContainerActivity"
+            android:name="com.smartown.framework.base.FragmentContainerActivity"
             android:screenOrientation="portrait"></activity>
 
         <service

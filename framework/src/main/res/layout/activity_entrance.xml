@@ -9,9 +9,9 @@
     <!--android:layout_height="match_parent"-->
     <!--android:scaleType="centerCrop"-->
     <!--android:src="@drawable/welcome_default" />-->
-    <com.smartown.view.refresh.NetworkRecyclerView
+    <app.test.ui.widget.NetworkRecyclerView
         android:id="@+id/entrance_activity_test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.smartown.view.refresh.NetworkRecyclerView>
+        android:layout_height="wrap_content"></app.test.ui.widget.NetworkRecyclerView>
 
 </FrameLayout>
