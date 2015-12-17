@@ -73,7 +73,7 @@
             android:id="@+id/base_fragment_loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请稍候"
+            android:text="请稍候..."
             android:textAppearance="@style/TextDisable"
             android:textSize="14dp" />
 

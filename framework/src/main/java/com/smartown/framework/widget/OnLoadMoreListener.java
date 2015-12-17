@@ -1,20 +1,20 @@
-package app.test.ui.widget;
+package com.smartown.framework.widget;
 
-public abstract class OnLoadByPageListener {
+public abstract class OnLoadMoreListener {
 
     public final static int STATE_WAITING = 0;
     public final static int STATE_LOADING = 1;
 
     private int loadState = STATE_WAITING;
 
-    protected abstract void onLoading();
+    protected abstract void onLoadMore();
 
-    public void startLoading() {
+    public void startLoadMore() {
         loadState = STATE_LOADING;
-        onLoading();
+        onLoadMore();
     }
 
-    public void finishLoading() {
+    public void finishLoadMore() {
         loadState = STATE_WAITING;
     }
 

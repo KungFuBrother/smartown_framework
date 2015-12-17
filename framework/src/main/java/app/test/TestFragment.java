@@ -1,6 +1,7 @@
 package app.test;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.smartown.framework.base.BaseNotifyFragment;
 import com.smartown.framework.mission.MissionController;
@@ -8,19 +9,18 @@ import com.smartown.framework.mission.MissionMessage;
 import com.smartown.framework.mission.Request;
 import com.smartown.framework.mission.RequestListener;
 import com.smartown.framework.mission.RequestMessage;
-import com.smartown.framework.tool.ApplicationTool;
 import com.smartown.yitian.gogo.R;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
+import app.test.ui.adapter.TestAdapter;
+import com.smartown.framework.widget.OnLoadMoreListener;
+import com.smartown.framework.widget.RefreshableRecyclerView;
 
 /**
  * Created by Tiger on 2015-12-16.
  */
 public class TestFragment extends BaseNotifyFragment {
 
-    PtrClassicFrameLayout ptrClassicFrameLayout;
+    RefreshableRecyclerView refreshableRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,49 +36,90 @@ public class TestFragment extends BaseNotifyFragment {
 
     @Override
     protected void findViews() {
-        ptrClassicFrameLayout = (PtrClassicFrameLayout) initViewById(R.id.test_refresh);
+        refreshableRecyclerView = (RefreshableRecyclerView) initViewById(R.id.test_list);
         initViews();
         registerViews();
     }
 
     @Override
     protected void initViews() {
-
+        refreshableRecyclerView.getRecyclerView().setAdapter(new TestAdapter());
+        refreshableRecyclerView.setCanLoadMore(true);
     }
 
     @Override
     protected void registerViews() {
-        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+        refreshableRecyclerView.getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                Request request = new Request();
-                request.setUrl("http://www.baidu.com", "");
-                MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
-
-                    @Override
-                    protected void onStart() {
-                        showLoading();
-                    }
-
-                    @Override
-                    protected void onFail(MissionMessage missionMessage) {
-
-                    }
-
-                    @Override
-                    protected void onSuccess(RequestMessage requestMessage) {
-                        ApplicationTool.log("RequestMessage", requestMessage.getResult());
-                        ptrClassicFrameLayout.refreshComplete();
-                    }
-
-                    @Override
-                    protected void onFinish() {
-                        hideLoading();
-                    }
-
-                });
+            public void onRefresh() {
+                refresh();
             }
         });
+        refreshableRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            protected void onLoadMore() {
+                loadMore();
+            }
+        });
+    }
+
+    private void refresh() {
+        Request request = new Request();
+        request.setUrl("http://www.google.com", "");
+        MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
+            @Override
+            protected void onStart() {
+                refreshableRecyclerView.getSwipeRefreshLayout().setRefreshing(true);
+            }
+
+            @Override
+            protected void onFail(MissionMessage missionMessage) {
+                missionFailed();
+            }
+
+            @Override
+            protected void onSuccess(RequestMessage requestMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                refreshableRecyclerView.getSwipeRefreshLayout().setRefreshing(false);
+            }
+        });
+    }
+
+    private void loadMore() {
+        Request request = new Request();
+        request.setUrl("http://www.google.com", "");
+        MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
+            @Override
+            protected void onStart() {
+                showLoading();
+            }
+
+            @Override
+            protected void onFail(MissionMessage missionMessage) {
+                missionFailed();
+            }
+
+            @Override
+            protected void onSuccess(RequestMessage requestMessage) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                hideLoading();
+                refreshableRecyclerView.finishLoadMore();
+            }
+        });
+    }
+
+    @Override
+    protected void reLoad() {
+        super.reLoad();
+        refresh();
     }
 
 }
