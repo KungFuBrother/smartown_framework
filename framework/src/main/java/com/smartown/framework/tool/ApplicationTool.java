@@ -12,21 +12,44 @@ import android.widget.Toast;
  */
 public class ApplicationTool {
 
-    private static Toast toast;
+    private Toast toast;
 
     //show loginfo
-    private static boolean debugMode = true;
+    private boolean debugMode = true;
 
     //screen info
-    private static double scale;
-    private static int screenWidth = 0, screenHeight = 0;
+    private double scale;
+    private int screenWidth = 0, screenHeight = 0;
 
     //application info
-    private static int versionCode = 0;
-    private static String versionName = "";
-    private static String packageName = "";
+    private int versionCode = 0;
+    private String versionName = "";
+    private String packageName = "";
+
+    //application info
+    private String publicHost = "http://yitos.net";
+    private String cloudHost = "http://gcapi.suning.com";
+    private String moneyHost = "http://pay.yitos.net";
+
+//    String IP_PUBLIC = "http://42.96.249.111";
+//    String IP_SUNING = "http://58.240.86.161";
+//    String IP_MONEY = "http://115.28.252.7";
+
+//    String IP_PUBLIC = "http://192.168.8.8:8050";
+//    String IP_SUNING = "http://58.240.86.161";
+//    String IP_MONEY = "http://192.168.8.8:82";
+
+    private static ApplicationTool instance;
+
+    public static ApplicationTool getInstance() {
+        return instance;
+    }
 
     public static void init(Context context) {
+        instance = new ApplicationTool(context);
+    }
+
+    public ApplicationTool(Context context) {
         toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
@@ -44,50 +67,61 @@ public class ApplicationTool {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void showToast(String text) {
+    public void showToast(String text) {
         toast.setText(text);
         toast.show();
     }
 
-    public static void setDebugMode(boolean enable) {
+    public void setDebugMode(boolean enable) {
         debugMode = enable;
     }
 
-    public static void log(String tag, String info) {
+    public void log(String tag, String info) {
         if (debugMode) {
             Log.i(tag, info);
         }
     }
 
-    public static int dip2px(float dipValue) {
+    public int dip2px(float dipValue) {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public static int px2dip(float pxValue) {
+    public int px2dip(float pxValue) {
         return (int) (pxValue / scale + 0.5f);
     }
 
-    public static int getScreenHeight() {
+    public int getScreenHeight() {
         return screenHeight;
     }
 
-    public static int getScreenWidth() {
+    public int getScreenWidth() {
         return screenWidth;
     }
 
-    public static int getVersionCode() {
+    public int getVersionCode() {
         return versionCode;
     }
 
-    public static String getVersionName() {
+    public String getVersionName() {
         return versionName;
     }
 
-    public static String getPackageName() {
+    public String getPackageName() {
         return packageName;
+    }
+
+    public String getPublicHost() {
+        return publicHost;
+    }
+
+    public String getCloudHost() {
+        return cloudHost;
+    }
+
+    public String getMoneyHost() {
+        return moneyHost;
     }
 
 }

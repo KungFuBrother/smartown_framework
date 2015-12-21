@@ -33,7 +33,7 @@ public class MissionController {
         if (contextMissions != null) {
             for (Mission mission : contextMissions) {
                 if (mission != null) {
-                    mission.cacel();
+                    mission.cancel();
                 }
             }
         }

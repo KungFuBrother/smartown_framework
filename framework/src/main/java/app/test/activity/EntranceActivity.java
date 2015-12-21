@@ -10,13 +10,15 @@ import com.smartown.yitian.gogo.R;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
+import app.test.TestFragment;
+
 public class EntranceActivity extends BaseNotifyActivity {
 
     @Override
     protected void onCreate(Bundle bundle) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(bundle);
-//        jump(TestFragment.class.getName());
+        jump(TestFragment.class.getName());
         initContentView(R.layout.activity_entrance);
         init();
         findViews();
@@ -28,7 +30,7 @@ public class EntranceActivity extends BaseNotifyActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         MobclickAgent.onPageStart(EntranceActivity.class.getName());
-        ApplicationTool.showToast(HelloJni.stringFromJNI());
+        ApplicationTool.getInstance().showToast(HelloJni.stringFromJNI());
     }
 
     @Override

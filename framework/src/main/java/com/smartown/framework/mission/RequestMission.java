@@ -26,13 +26,21 @@ public class RequestMission extends Mission {
         this.requestListener = requestListener;
     }
 
+    @Override
+    public void cancel() {
+        super.cancel();
+        if (httpURLConnection != null) {
+            httpURLConnection.disconnect();
+        }
+    }
+
     private void request() {
         if (isCanceled()) {
             return;
         }
         try {
-            Log.i("Request", "url:" + request.getHost() + request.getUrl());
-            URL url = new URL(request.getHost() + request.getUrl());
+            Log.i("Request", "url:" + request.getUrl());
+            URL url = new URL( request.getUrl());
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);// 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在http正文内，因此需要设为true, 默认情况下是false;
             httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
@@ -42,9 +50,13 @@ public class RequestMission extends Mission {
             httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
             httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
 //            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
-            if (request.isUseCookie()) {
-                httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(request.getHost()));
-            }
+//            if (request.isUseCookie()) {
+//                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_PUBLIC));
+//                } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_MONEY));
+//                }
+//            }
             if (!request.getRequestParams().isEmpty()) {
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < request.getRequestParams().size(); i++) {
@@ -70,18 +82,23 @@ public class RequestMission extends Mission {
             }
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                if (request.isSaveCookie()) {
-                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
-                    if (cookies != null) {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (int i = 0; i < cookies.size(); i++) {
-                            if (i > 0) {
-                                stringBuilder.append(";");
-                            }
-                            stringBuilder.append(cookies.get(i));
-                        }
-                    }
-                }
+//                if (request.isSaveCookie()) {
+//                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
+//                    if (cookies != null) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for (int i = 0; i < cookies.size(); i++) {
+//                            if (i > 0) {
+//                                stringBuilder.append(";");
+//                            }
+//                            stringBuilder.append(cookies.get(i));
+//                        }
+//                        if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                            CookieController.saveCookie(API.IP_PUBLIC, stringBuilder.toString());
+//                        } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                            CookieController.saveCookie(API.IP_MONEY, stringBuilder.toString());
+//                        }
+//                    }
+//                }
                 StringBuilder stringBuilder = new StringBuilder();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -122,9 +139,14 @@ public class RequestMission extends Mission {
 
     @Override
     public void start() {
+        if (isCanceled()) {
+            return;
+        }
         requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_START, "PROGRESS_START"));
         request();
-        cacel();
+        if (isCanceled()) {
+            return;
+        }
         requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_FINISH, "PROGRESS_FINISH"));
     }
 

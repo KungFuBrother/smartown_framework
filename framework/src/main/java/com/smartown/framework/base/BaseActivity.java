@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 
 import com.smartown.framework.mission.MissionController;
+import com.smartown.framework.tool.ApplicationTool;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         MissionController.cancelMissions(this);
+        ApplicationTool.getInstance().log("BaseActivity", "onDestroy");
         super.onDestroy();
     }
 

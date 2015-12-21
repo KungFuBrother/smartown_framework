@@ -69,6 +69,7 @@ public class TestFragment extends BaseNotifyFragment {
         MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
             @Override
             protected void onStart() {
+                hideLoading();
                 refreshableRecyclerView.getSwipeRefreshLayout().setRefreshing(true);
             }
 

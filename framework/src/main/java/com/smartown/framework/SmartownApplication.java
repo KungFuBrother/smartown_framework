@@ -25,7 +25,7 @@ public class SmartownApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ApplicationTool.init(this);
-        ApplicationTool.setDebugMode(true);
+        ApplicationTool.getInstance().setDebugMode(true);
         initUmeng();
         initImageLoader();
     }

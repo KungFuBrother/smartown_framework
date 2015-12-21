@@ -1,3 +1,0 @@
-set solib-search-path samples\hello-jni/obj/local/mips
-source E://android-ndk-r10e/prebuilt/common/gdb/common.setup
-directory E://android-ndk-r10e/platforms/android-9/arch-mips/usr/include samples/hello-jni/jni E://android-ndk-r10e/sources/cxx-stl/system
