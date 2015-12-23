@@ -1,6 +1,5 @@
 package com.smartown.framework.mission;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -11,10 +10,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 public class RequestMission extends Mission {
-
 
     HttpURLConnection httpURLConnection;
 
@@ -40,7 +37,7 @@ public class RequestMission extends Mission {
         }
         try {
             Log.i("Request", "url:" + request.getUrl());
-            URL url = new URL( request.getUrl());
+            URL url = new URL(request.getUrl());
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);// 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在http正文内，因此需要设为true, 默认情况下是false;
             httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
@@ -111,9 +108,44 @@ public class RequestMission extends Mission {
                 if (isCanceled()) {
                     return;
                 }
-                if (!TextUtils.isEmpty(stringBuilder.toString())) {
-                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
-                }
+//                if (!TextUtils.isEmpty(stringBuilder.toString())) {
+//                    // 判断返回的的字符串是否包含以下这些会话过期的标志
+//                    if (stringBuilder.toString().contains("NAUTH")) {
+//                        LogUtil.logError("Request Status", "会话过期");
+//                        Request loginRequest = new Request();
+//                        loginRequest.setUrl(API.API_USER_LOGIN);
+//                        loginRequest.addRequestParam("phone", User.getUser().getPhone());
+//                        loginRequest.addRequestParam("password", Content.getStringContent(Parameters.CACHE_KEY_USER_PASSWORD, ""));
+//                        loginRequest.setSaveCookie(true);
+//                        String result = MissionController.request(loginRequest);
+//                        if (!TextUtils.isEmpty(result)) {
+//                            try {
+//                                JSONObject object = new JSONObject(result);
+//                                if (object.optString("state").equalsIgnoreCase("SUCCESS")) {
+//                                    Content.saveStringContent(Parameters.CACHE_KEY_MONEY_SN, object.optString("cacheKey"));
+//                                    JSONObject userObject = object.optJSONObject("object");
+//                                    if (userObject != null) {
+//                                        Content.saveStringContent(Parameters.CACHE_KEY_USER_JSON, userObject.toString());
+//                                        User.init();
+//                                        request();
+//                                        return;
+//                                    }
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        Content.removeContent(Parameters.CACHE_KEY_USER_JSON);
+//                        Content.removeContent(Parameters.CACHE_KEY_USER_PASSWORD);
+//                        Content.removeContent(Parameters.CACHE_KEY_COOKIE);
+//                        Content.removeContent(Parameters.CACHE_KEY_MONEY_SN);
+//                        User.init();
+//                        MoneyAccount.init(null);
+//                        requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_FAILED, "会话过期"));
+//                        return;
+//                    }
+//                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
+//                }
             } else {
                 if (isCanceled()) {
                     return;

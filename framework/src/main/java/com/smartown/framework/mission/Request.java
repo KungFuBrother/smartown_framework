@@ -42,15 +42,17 @@ public class Request {
         return requestParams;
     }
 
-    public void setRequestParams(List<RequestParam> requestParams) {
-        this.requestParams = requestParams;
-    }
-
     public void addRequestParam(String key, String value) {
         if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
             return;
         }
         requestParams.add(new RequestParam(key, value));
+    }
+
+    public void addRequestParam(List<RequestParam> params) {
+        if (params != null) {
+            requestParams.addAll(params);
+        }
     }
 
 }
