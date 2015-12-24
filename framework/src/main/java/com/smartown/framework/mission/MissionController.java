@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,9 +21,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import yitgogo.consumer.tools.API;
-import yitgogo.consumer.tools.PackageTool;
 
 public class MissionController {
 
@@ -70,7 +69,7 @@ public class MissionController {
         contextMissions.add(mission);
     }
 
-    public static String request(Request request) {
+    public static String post(Request request) {
         try {
             Log.i("Request", "url:" + request.getUrl());
             URL url = new URL(request.getUrl());
@@ -82,14 +81,14 @@ public class MissionController {
             httpURLConnection.setRequestMethod("POST");// 设定请求的方法为"POST"，默认是GET
             httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
             httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
-            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
-            if (request.isUseCookie()) {
-                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
-                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_PUBLIC));
-                } else if (request.getUrl().startsWith(API.IP_MONEY)) {
-                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_MONEY));
-                }
-            }
+//            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
+//            if (request.isUseCookie()) {
+//                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_PUBLIC));
+//                } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_MONEY));
+//                }
+//            }
             if (!request.getRequestParams().isEmpty()) {
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < request.getRequestParams().size(); i++) {
@@ -109,23 +108,23 @@ public class MissionController {
             }
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                if (request.isSaveCookie()) {
-                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
-                    if (cookies != null) {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (int i = 0; i < cookies.size(); i++) {
-                            if (i > 0) {
-                                stringBuilder.append(";");
-                            }
-                            stringBuilder.append(cookies.get(i));
-                        }
-                        if (request.getUrl().startsWith(API.IP_PUBLIC)) {
-                            CookieController.saveCookie(API.IP_PUBLIC, stringBuilder.toString());
-                        } else if (request.getUrl().startsWith(API.IP_MONEY)) {
-                            CookieController.saveCookie(API.IP_MONEY, stringBuilder.toString());
-                        }
-                    }
-                }
+//                if (request.isSaveCookie()) {
+//                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
+//                    if (cookies != null) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for (int i = 0; i < cookies.size(); i++) {
+//                            if (i > 0) {
+//                                stringBuilder.append(";");
+//                            }
+//                            stringBuilder.append(cookies.get(i));
+//                        }
+//                        if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                            CookieController.saveCookie(API.IP_PUBLIC, stringBuilder.toString());
+//                        } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                            CookieController.saveCookie(API.IP_MONEY, stringBuilder.toString());
+//                        }
+//                    }
+//                }
                 StringBuilder stringBuilder = new StringBuilder();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -148,4 +147,83 @@ public class MissionController {
         return "";
     }
 
+    public static String get(Request request) {
+        try {
+            Log.i("Request", "url:" + request.getUrl());
+            StringBuilder paramStringBuilder = new StringBuilder();
+            if (!request.getRequestParams().isEmpty()) {
+                paramStringBuilder.append("?");
+                for (int i = 0; i < request.getRequestParams().size(); i++) {
+                    if (i > 0) {
+                        paramStringBuilder.append("&");
+                    }
+                    paramStringBuilder.append(request.getRequestParams().get(i).getKey());
+                    paramStringBuilder.append("=");
+                    paramStringBuilder.append(request.getRequestParams().get(i).getValue());
+                }
+                Log.i("Request", "parameters:" + paramStringBuilder.toString());
+            }
+            URL url = new URL(request.getUrl() + paramStringBuilder.toString());
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
+            httpURLConnection.setUseCaches(false); // Post 请求不能使用缓存
+            httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
+            httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                StringBuilder stringBuilder = new StringBuilder();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                bufferedReader.close();
+                inputStream.close();
+                if (!TextUtils.isEmpty(stringBuilder.toString())) {
+                    Log.i("Request", "result:" + stringBuilder.toString());
+                    return stringBuilder.toString();
+                }
+            } else {
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static boolean download(String urlString, File file) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
+            httpURLConnection.setUseCaches(false); // Post 请求不能使用缓存
+            httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
+            httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = httpURLConnection.getInputStream();
+                if (inputStream != null) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    byte[] b = new byte[512];
+                    int readCount;
+                    while ((readCount = inputStream.read(b)) != -1) {
+                        fileOutputStream.write(b, 0, readCount);
+                    }
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                    httpURLConnection.disconnect();
+                    return true;
+                }
+            }
+            httpURLConnection.disconnect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
