@@ -9,11 +9,11 @@ import com.smartown.framework.mission.MissionMessage;
 import com.smartown.framework.mission.Request;
 import com.smartown.framework.mission.RequestListener;
 import com.smartown.framework.mission.RequestMessage;
+import com.smartown.framework.widget.OnLoadMoreListener;
+import com.smartown.framework.widget.RefreshableRecyclerView;
 import com.smartown.yitian.gogo.R;
 
 import app.test.ui.adapter.TestAdapter;
-import com.smartown.framework.widget.OnLoadMoreListener;
-import com.smartown.framework.widget.RefreshableRecyclerView;
 
 /**
  * Created by Tiger on 2015-12-16.
@@ -65,8 +65,8 @@ public class TestFragment extends BaseNotifyFragment {
 
     private void refresh() {
         Request request = new Request();
-        request.setUrl("http://www.google.com", "");
-        MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
+        request.setUrl("http://www.google.com");
+        MissionController.startRequestMission(getActivity(), request, new RequestListener() {
             @Override
             protected void onStart() {
                 hideLoading();
@@ -92,8 +92,8 @@ public class TestFragment extends BaseNotifyFragment {
 
     private void loadMore() {
         Request request = new Request();
-        request.setUrl("http://www.google.com", "");
-        MissionController.startNetworkMission(getActivity(), request, new RequestListener() {
+        request.setUrl("http://www.google.com");
+        MissionController.startRequestMission(getActivity(), request, new RequestListener() {
             @Override
             protected void onStart() {
                 showLoading();

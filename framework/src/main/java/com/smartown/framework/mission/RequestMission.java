@@ -3,9 +3,6 @@ package com.smartown.framework.mission;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,15 +11,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-
-import yitgogo.consumer.money.model.MoneyAccount;
-import yitgogo.consumer.tools.API;
-import yitgogo.consumer.tools.Content;
-import yitgogo.consumer.tools.LogUtil;
-import yitgogo.consumer.tools.PackageTool;
-import yitgogo.consumer.tools.Parameters;
-import yitgogo.consumer.user.model.User;
 
 public class RequestMission extends Mission {
 
@@ -59,14 +47,14 @@ public class RequestMission extends Mission {
             httpURLConnection.setRequestMethod("POST");// 设定请求的方法为"POST"，默认是GET
             httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
             httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
-            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
-            if (request.isUseCookie()) {
-                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
-                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_PUBLIC));
-                } else if (request.getUrl().startsWith(API.IP_MONEY)) {
-                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_MONEY));
-                }
-            }
+//            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
+//            if (request.isUseCookie()) {
+//                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_PUBLIC));
+//                } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                    httpURLConnection.setRequestProperty("Cookie", CookieController.getCookie(API.IP_MONEY));
+//                }
+//            }
             if (!request.getRequestParams().isEmpty()) {
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < request.getRequestParams().size(); i++) {
@@ -92,23 +80,23 @@ public class RequestMission extends Mission {
             }
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                if (request.isSaveCookie()) {
-                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
-                    if (cookies != null) {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (int i = 0; i < cookies.size(); i++) {
-                            if (i > 0) {
-                                stringBuilder.append(";");
-                            }
-                            stringBuilder.append(cookies.get(i));
-                        }
-                        if (request.getUrl().startsWith(API.IP_PUBLIC)) {
-                            CookieController.saveCookie(API.IP_PUBLIC, stringBuilder.toString());
-                        } else if (request.getUrl().startsWith(API.IP_MONEY)) {
-                            CookieController.saveCookie(API.IP_MONEY, stringBuilder.toString());
-                        }
-                    }
-                }
+//                if (request.isSaveCookie()) {
+//                    List<String> cookies = httpURLConnection.getHeaderFields().get("Set-Cookie");
+//                    if (cookies != null) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for (int i = 0; i < cookies.size(); i++) {
+//                            if (i > 0) {
+//                                stringBuilder.append(";");
+//                            }
+//                            stringBuilder.append(cookies.get(i));
+//                        }
+//                        if (request.getUrl().startsWith(API.IP_PUBLIC)) {
+//                            CookieController.saveCookie(API.IP_PUBLIC, stringBuilder.toString());
+//                        } else if (request.getUrl().startsWith(API.IP_MONEY)) {
+//                            CookieController.saveCookie(API.IP_MONEY, stringBuilder.toString());
+//                        }
+//                    }
+//                }
                 StringBuilder stringBuilder = new StringBuilder();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -121,44 +109,44 @@ public class RequestMission extends Mission {
                 if (isCanceled()) {
                     return;
                 }
-                if (!TextUtils.isEmpty(stringBuilder.toString())) {
-                    // 判断返回的的字符串是否包含以下这些会话过期的标志
-                    if (stringBuilder.toString().contains("NAUTH")) {
-                        LogUtil.logError("Request Status", "会话过期");
-                        Request loginRequest = new Request();
-                        loginRequest.setUrl(API.API_USER_LOGIN);
-                        loginRequest.addRequestParam("phone", User.getUser().getPhone());
-                        loginRequest.addRequestParam("password", Content.getStringContent(Parameters.CACHE_KEY_USER_PASSWORD, ""));
-                        loginRequest.setSaveCookie(true);
-                        String result = MissionController.request(loginRequest);
-                        if (!TextUtils.isEmpty(result)) {
-                            try {
-                                JSONObject object = new JSONObject(result);
-                                if (object.optString("state").equalsIgnoreCase("SUCCESS")) {
-                                    Content.saveStringContent(Parameters.CACHE_KEY_MONEY_SN, object.optString("cacheKey"));
-                                    JSONObject userObject = object.optJSONObject("object");
-                                    if (userObject != null) {
-                                        Content.saveStringContent(Parameters.CACHE_KEY_USER_JSON, userObject.toString());
-                                        User.init();
-                                        post();
-                                        return;
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Content.removeContent(Parameters.CACHE_KEY_USER_JSON);
-                        Content.removeContent(Parameters.CACHE_KEY_USER_PASSWORD);
-                        Content.removeContent(Parameters.CACHE_KEY_COOKIE);
-                        Content.removeContent(Parameters.CACHE_KEY_MONEY_SN);
-                        User.init();
-                        MoneyAccount.init(null);
-                        requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_FAILED, "会话过期"));
-                        return;
-                    }
-                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
-                }
+//                if (!TextUtils.isEmpty(stringBuilder.toString())) {
+//                    // 判断返回的的字符串是否包含以下这些会话过期的标志
+//                    if (stringBuilder.toString().contains("NAUTH")) {
+//                        LogUtil.logError("Request Status", "会话过期");
+//                        Request loginRequest = new Request();
+//                        loginRequest.setUrl(API.API_USER_LOGIN);
+//                        loginRequest.addRequestParam("phone", User.getUser().getPhone());
+//                        loginRequest.addRequestParam("password", Content.getStringContent(Parameters.CACHE_KEY_USER_PASSWORD, ""));
+//                        loginRequest.setSaveCookie(true);
+//                        String result = MissionController.request(loginRequest);
+//                        if (!TextUtils.isEmpty(result)) {
+//                            try {
+//                                JSONObject object = new JSONObject(result);
+//                                if (object.optString("state").equalsIgnoreCase("SUCCESS")) {
+//                                    Content.saveStringContent(Parameters.CACHE_KEY_MONEY_SN, object.optString("cacheKey"));
+//                                    JSONObject userObject = object.optJSONObject("object");
+//                                    if (userObject != null) {
+//                                        Content.saveStringContent(Parameters.CACHE_KEY_USER_JSON, userObject.toString());
+//                                        User.init();
+//                                        post();
+//                                        return;
+//                                    }
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        Content.removeContent(Parameters.CACHE_KEY_USER_JSON);
+//                        Content.removeContent(Parameters.CACHE_KEY_USER_PASSWORD);
+//                        Content.removeContent(Parameters.CACHE_KEY_COOKIE);
+//                        Content.removeContent(Parameters.CACHE_KEY_MONEY_SN);
+//                        User.init();
+//                        MoneyAccount.init(null);
+//                        requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_FAILED, "会话过期"));
+//                        return;
+//                    }
+//                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
+//                }
             } else {
                 if (isCanceled()) {
                     return;
