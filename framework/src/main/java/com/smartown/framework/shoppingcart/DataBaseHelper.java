@@ -12,7 +12,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     /**
      * 数据库名称常量
      */
-    public static final String DATABASE_NAME = "shopping_cart.db3";
+    public static final String DATABASE_NAME = "shopping_cart.db";
     /**
      * 数据库版本常量
      */
@@ -20,7 +20,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     /**
      * 购物车表
      */
-    public static final String table_car_platform = "car_platform";
+    public static final String table_shopping_cart = "shopping_cart";
+
+    public static final int PRODUCT_TYPE_YITIAN = 1;
+    public static final int PRODUCT_TYPE_LOCAL = 2;
+    public static final int PRODUCT_TYPE_SUNING = 3;
 
     private static DataBaseHelper helper;
 
@@ -43,13 +47,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists " + table_car_platform + "("
-                + "id integer primary key,"
-                + ModelShoppingCart.columnIsSelected + " integer,"
-                + ModelShoppingCart.columnBuyCount + " integer,"
-                + ModelShoppingCart.columnProviderId + " varchar,"
-                + ModelShoppingCart.columnProviderName + " varchar,"
-                + ModelShoppingCart.columnProductId + " varchar,"
+        db.execSQL("create table if not exists " + table_shopping_cart + "(" + "id integer primary key,"
+                + ModelShoppingCart.columnProductType + " integer," + ModelShoppingCart.columnIsSelected + " integer,"
+                + ModelShoppingCart.columnBuyCount + " integer," + ModelShoppingCart.columnProviderId + " varchar,"
+                + ModelShoppingCart.columnProviderName + " varchar," + ModelShoppingCart.columnProductId + " varchar,"
                 + ModelShoppingCart.columnProductObject + " varchar)");
     }
 
@@ -57,4 +58,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 }
