@@ -11,7 +11,7 @@ import com.smartown.framework.tool.ApplicationTool;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    LayoutInflater layoutInflater;
+    protected LayoutInflater layoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

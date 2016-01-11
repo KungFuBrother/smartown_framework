@@ -2,25 +2,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="SmartownAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlNormal">@color/color_accent</item>
         <item name="android:windowBackground">@color/background_window</item>
-        <item name="actionMenuTextAppearance">@style/AppTheme.MenuText</item>
+        <item name="actionMenuTextAppearance">@style/MenuText</item>
         <item name="actionMenuTextColor">@color/white_cf</item>
     </style>
     <!--toolbar标题字体-->
-    <style name="AppTheme.TitleText">
+    <style name="TitleText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <!--toolbar menu字体-->
-    <style name="AppTheme.MenuText">
+    <style name="MenuText">
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">normal</item>
     </style>

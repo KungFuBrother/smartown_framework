@@ -10,7 +10,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.L;
 import com.smartown.framework.tool.ApplicationTool;
-import com.smartown.yitian.gogo.R;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
@@ -69,9 +68,9 @@ public class SmartownApplication extends Application {
         L.writeDebugLogs(false);
         L.writeLogs(false);
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.loading_default)
-                .showImageForEmptyUri(R.drawable.loading_default)
-                .showImageOnFail(R.drawable.loading_default)
+//                .showImageOnLoading(R.drawable.loading_default)
+//                .showImageForEmptyUri(R.drawable.loading_default)
+//                .showImageOnFail(R.drawable.loading_default)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)

@@ -101,7 +101,7 @@ public class RequestMission extends Mission {
                 if (isCanceled()) {
                     return;
                 }
-//                if (!TextUtils.isEmpty(stringBuilder.toString())) {
+                if (!TextUtils.isEmpty(stringBuilder.toString())) {
 //                    // 判断返回的的字符串是否包含以下这些会话过期的标志
 //                    if (stringBuilder.toString().contains("NAUTH")) {
 //                        LogUtil.logError("Request Status", "会话过期");
@@ -137,8 +137,8 @@ public class RequestMission extends Mission {
 //                        requestListener.sendMessage(new MissionMessage(MissionListener.PROGRESS_FAILED, "会话过期"));
 //                        return;
 //                    }
-//                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
-//                }
+                    requestListener.sendMessage(new RequestMessage(MissionListener.PROGRESS_SUCCESS, "PROGRESS_SUCCESS", stringBuilder.toString()));
+                }
             } else {
                 if (isCanceled()) {
                     return;

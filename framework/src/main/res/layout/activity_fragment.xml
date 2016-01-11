@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@color/color_primary"
         android:elevation="2dp"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:titleTextAppearance="@style/AppTheme.TitleText"></android.support.v7.widget.Toolbar>
-
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:titleTextAppearance="@style/TitleText"></android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/activity_fragment_content"

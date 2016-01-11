@@ -10,22 +10,21 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.smartown.framework.mission.MissionController;
-import com.smartown.yitian.gogo.R;
+import com.smartown.framework.R;
 
 /**
  * Created by Tiger on 2015-11-09.
  */
 public abstract class BaseNotifyFragment extends BaseFragment {
 
-    LinearLayout failLayout, nodataLayout, loadingLayout;
-    FrameLayout contentLayout;
+    private LinearLayout failLayout, nodataLayout, loadingLayout;
+    private FrameLayout contentLayout;
 
-    Button reloadButton;
+    private Button reloadButton;
 
-    TextView nodataTextView, loadingTextView;
+    private TextView nodataTextView, loadingTextView;
 
-    View contentView;
+    private View contentView;
 
     @Nullable
     @Override

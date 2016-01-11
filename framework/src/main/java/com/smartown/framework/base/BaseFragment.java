@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
  */
 public abstract class BaseFragment extends Fragment {
 
-    LayoutInflater layoutInflater;
+    protected LayoutInflater layoutInflater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.smartown.yitian.gogo">
+    package="com.smartown.framework">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -14,7 +14,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/SmartownAppTheme">
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -24,18 +24,14 @@
             android:value="TEST" />
 
         <activity
-            android:name="app.test.activity.EntranceActivity"
+            android:name="com.smartown.app.activity.MainActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity
-            android:name="app.test.activity.MainActivity"
-            android:screenOrientation="portrait"></activity>
+
         <activity
             android:name="com.smartown.framework.base.FragmentContainerActivity"
             android:screenOrientation="portrait"></activity>

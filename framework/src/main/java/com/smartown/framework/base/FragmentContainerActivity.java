@@ -7,17 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.smartown.yitian.gogo.R;
+import com.smartown.framework.R;
 import com.umeng.analytics.MobclickAgent;
 
 public class FragmentContainerActivity extends BaseActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    String fragment = "";
-    String title = "";
-    Bundle bundle = new Bundle();
-    Fragment contentFragment = new Fragment();
+    private String fragment = "";
+    private String title = "";
+    private Bundle bundle = new Bundle();
+    private Fragment contentFragment = new Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

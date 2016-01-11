@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.smartown.yitian.gogo.R;
+import com.smartown.framework.R;
 
 /**
  * Created by Tiger on 2015-12-17.

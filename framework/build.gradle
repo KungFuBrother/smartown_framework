@@ -4,11 +4,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
     defaultConfig {
-        applicationId 'com.smartown.framework'
-        minSdkVersion 8
+        minSdkVersion 7
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        applicationId 'com.smartown.framework.testapp'
+        testApplicationId 'com.smartown.framework.testapp.test'
     }
     buildTypes {
         release {
