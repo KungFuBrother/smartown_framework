@@ -1,7 +1,6 @@
 package com.smartown.app.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.smartown.framework.R;
 import com.smartown.framework.base.BaseActivity;
@@ -15,7 +14,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        jump(Fragment.class.getName());
+//        jump(Fragment.class.getName());
     }
 
     @Override

@@ -10,8 +10,8 @@ import android.view.View;
 
 public class MailLineView extends View {
 
-    private int colorWidth = 4;
-    private int emptyWidth = 2;
+    private int colorWidth = 7;
+    private int emptyWidth = 1;
 
     public MailLineView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -28,6 +28,8 @@ public class MailLineView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        int viewHeight = getHeight();
+
         int drawLength = 0;
 
         Paint paint = new Paint();
@@ -36,7 +38,7 @@ public class MailLineView extends View {
         int count = 0;
 
         while (drawLength < getWidth()) {
-            drawLength += (emptyWidth - 1) * getHeight();
+            drawLength += emptyWidth * viewHeight;
             count++;
             if (count % 2 == 1) {
                 paint.setColor(Color.rgb(255, 134, 134));
@@ -44,13 +46,13 @@ public class MailLineView extends View {
                 paint.setColor(Color.rgb(134, 194, 255));
             }
             Path path = new Path();
-            path.moveTo(drawLength, getHeight());// 此点为多边形的起点
-            path.lineTo(drawLength + colorWidth * getHeight() - getHeight(), getHeight());
-            path.lineTo(drawLength + colorWidth * getHeight(), 0);
-            path.lineTo(drawLength + getHeight(), 0);
+            path.moveTo(drawLength, viewHeight);// 此点为多边形的起点
+            path.lineTo(drawLength + colorWidth * viewHeight - viewHeight, viewHeight);
+            path.lineTo(drawLength + colorWidth * viewHeight, 0);
+            path.lineTo(drawLength + viewHeight, 0);
             path.close(); // 使这些点构成封闭的多边形
             canvas.drawPath(path, paint);
-            drawLength += colorWidth * getHeight();
+            drawLength += colorWidth * viewHeight;
         }
     }
 
