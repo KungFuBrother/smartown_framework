@@ -35,7 +35,7 @@ public class MetroCircleLoadingView extends View {
      * 点总数
      */
     private static final int pointCount = 5;
-    private double acceleration = 540.0 / Math.pow(time, 2);
+    private double acceleration = 450.0 / Math.pow(time, 2);
     private List<ModelPoint> points = new ArrayList<>();
 
     private double pointRadius = 0;
