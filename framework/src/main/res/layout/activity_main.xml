@@ -3,13 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.smartown.framework.widget.MetroCircleLoadingView
+    <com.smartown.framework.widget.MetroCircleLoadingView1
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="center" />
-
-    <com.smartown.framework.widget.MetroLineLoadingView
-        android:layout_width="match_parent"
-        android:layout_height="4dp" />
+        android:layout_gravity="center"
+        android:padding="12dp" />
 
 </FrameLayout>
