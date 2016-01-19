@@ -1,1 +1,1 @@
-include ':framework'
+include ':ui', ':library'
