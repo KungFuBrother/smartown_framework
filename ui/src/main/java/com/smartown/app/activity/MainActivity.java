@@ -25,7 +25,7 @@ public class MainActivity extends BaseNotifyActivity {
     @Override
     protected void init() {
         Request request = new Request();
-        request.setUrl("http:www.google.com");
+        request.setUrl("http://www.google.com");
         MissionController.startRequestMission(this, request, new RequestListener() {
             @Override
             protected void onStart() {

@@ -30,15 +30,15 @@ public class MetroCircleLoadingView1 extends View {
     /**
      * 半圈时间
      */
-    private static final int halfTime = 80;
+    private static final int halfTime = 56;
     /**
      * 等待时间
      */
-    private static final int waitTime = 10;
+    private static final int waitTime = 7;
     /**
      * 点总数
      */
-    private static final int pointCount = 7;
+    private static final int pointCount = 5;
     /**
      * 一圈的长度（角度）
      */
