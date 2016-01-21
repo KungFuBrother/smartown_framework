@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/base_activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary"
+        android:elevation="2dp"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:titleTextAppearance="@style/TitleText"></android.support.v7.widget.Toolbar>
 
     <FrameLayout
-        android:id="@+id/base_activity_contnet_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/base_activity_loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black_10"
-        android:clickable="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        <FrameLayout
+            android:id="@+id/base_activity_contnet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
 
-        <com.smartown.library.widget.MetroCircleLoadingView1
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+        <LinearLayout
+            android:id="@+id/base_activity_loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_10"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/base_activity_loading_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextDisable"
-            android:textSize="14dp" />
+            <com.smartown.library.widget.MetroCircleLoadingView1
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/base_activity_loading_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="请稍候..."
+                android:textAppearance="@style/TextDisable"
+                android:textSize="14dp" />
+        </LinearLayout>
 
-</FrameLayout>
+    </FrameLayout>
+</LinearLayout>
