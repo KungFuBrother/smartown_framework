@@ -3,16 +3,12 @@ package com.smartown.library.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.smartown.application.R;
 import com.umeng.analytics.MobclickAgent;
 
-public class FragmentContainerActivity extends BaseActivity {
-
-    private Toolbar toolbar;
+public class FragmentContainerActivity extends BaseNotifyActivity {
 
     private String fragment = "";
     private String title = "";
@@ -22,7 +18,6 @@ public class FragmentContainerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
         init();
         findViews();
     }
@@ -71,38 +66,21 @@ public class FragmentContainerActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        toolbar = (Toolbar) findViewById(R.id.activity_fragment_toolbar);
         initViews();
         registerViews();
     }
 
     @Override
     protected void initViews() {
-        if (!TextUtils.isEmpty(title)) {
-            toolbar.setTitle(title);
-        } else {
-            toolbar.setTitle("返回");
-        }
-        setSupportActionBar(toolbar);
+        setTitle(title);
         if (contentFragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_content, contentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.base_activity_contnet_layout, contentFragment).commit();
         }
     }
 
     @Override
     protected void registerViews() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.activity_fragment, menu);
-//        return true;
-//    }
+    }
 
 }

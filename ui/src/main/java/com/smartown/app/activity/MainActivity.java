@@ -1,6 +1,7 @@
 package com.smartown.app.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.smartown.application.R;
 import com.smartown.library.mission.MissionController;
@@ -20,6 +21,7 @@ public class MainActivity extends BaseNotifyActivity {
         super.onCreate(savedInstanceState);
         initContentView(R.layout.activity_main);
         init();
+        findViews();
     }
 
     @Override
@@ -51,12 +53,25 @@ public class MainActivity extends BaseNotifyActivity {
 
     @Override
     protected void findViews() {
-
+        initViews();
+        registerViews();
     }
 
     @Override
     protected void initViews() {
+        setTitle("首页");
+        addTitleTextButton("test", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        addTitleImageButton(R.mipmap.ic_launcher, "", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
