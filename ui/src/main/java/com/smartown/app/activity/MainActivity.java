@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.smartown.application.R;
-import com.smartown.library.mission.MissionController;
-import com.smartown.library.mission.MissionMessage;
-import com.smartown.library.mission.Request;
-import com.smartown.library.mission.RequestListener;
-import com.smartown.library.mission.RequestMessage;
+import com.smartown.library.json.Book;
+import com.smartown.library.json.JsonParser;
 import com.smartown.library.ui.base.BaseNotifyActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Tiger on 2016-01-11.
@@ -26,29 +26,34 @@ public class MainActivity extends BaseNotifyActivity {
 
     @Override
     protected void init() {
-        Request request = new Request();
-        request.setUrl("http://www.google.com");
-        MissionController.startRequestMission(this, request, new RequestListener() {
-            @Override
-            protected void onStart() {
-                showLoading();
-            }
+        try {
+            JSONObject jsonObject = new JSONObject("{\n" +
+                    "    \"bookName\": \"三国演义\",\n" +
+                    "    \"page\": 10000,\n" +
+                    "    \"description\": {\n" +
+                    "        \"price\": 50\n" +
+                    "    },\n" +
+                    "    \"editors\": [\n" +
+                    "        {\n" +
+                    "            \"name\": \"tiger\"\n" +
+                    "        },\n" +
+                    "        {\n" +
+                    "            \"name\": \"smartown\"\n" +
+                    "        }\n" +
+                    "    ],\n" +
+                    "    \"sellers\": [\n" +
+                    "        \"seller1\",\n" +
+                    "        \"seller2\",\n" +
+                    "        \"seller3\"\n" +
+                    "    ]\n" +
+                    "}");
 
-            @Override
-            protected void onFail(MissionMessage missionMessage) {
-
-            }
-
-            @Override
-            protected void onSuccess(RequestMessage requestMessage) {
-
-            }
-
-            @Override
-            protected void onFinish() {
-                hideLoading();
-            }
-        });
+            Book book = (Book) JsonParser.getInstance().parse(Book.class, jsonObject);
+            System.out.println(book.toString());
+            System.out.println(JsonParser.getInstance().toJsonObject(book));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

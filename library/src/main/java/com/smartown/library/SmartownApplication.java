@@ -12,6 +12,7 @@ public class SmartownApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        System.setProperty("http.keepAlive", "false");//HttpURLConnection bug
         Tools.init(this);
         Tools.getInstance().setDebugMode(true);
     }

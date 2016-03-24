@@ -35,10 +35,10 @@ public class RequestMission extends Mission {
             httpURLConnection.setDoOutput(true);// 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在http正文内，因此需要设为true, 默认情况下是false;
             httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
             httpURLConnection.setUseCaches(false); // Post 请求不能使用缓存
-            httpURLConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");//表单参数类型
+            httpURLConnection.setRequestProperty("Content-valueType", "application/x-www-form-urlencoded");//表单参数类型
             httpURLConnection.setRequestMethod("POST");// 设定请求的方法为"POST"，默认是GET
-            httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
-            httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
+            httpURLConnection.setConnectTimeout(10000);//连接超时 单位毫秒
+            httpURLConnection.setReadTimeout(10000);//读取超时 单位毫秒
 //            httpURLConnection.setRequestProperty("version", PackageTool.getVersionName());
 //            if (request.isUseCookie()) {
 //                if (request.getUrl().startsWith(API.IP_PUBLIC)) {
@@ -188,8 +188,8 @@ public class RequestMission extends Mission {
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoInput(true);// 设置是否从httpUrlConnection读入，默认情况下是true;
             httpURLConnection.setUseCaches(false); // Post 请求不能使用缓存
-            httpURLConnection.setConnectTimeout(5000);//连接超时 单位毫秒
-            httpURLConnection.setReadTimeout(5000);//读取超时 单位毫秒
+            httpURLConnection.setConnectTimeout(10000);//连接超时 单位毫秒
+            httpURLConnection.setReadTimeout(10000);//读取超时 单位毫秒
             if (isCanceled()) {
                 return;
             }
